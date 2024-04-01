@@ -29,6 +29,16 @@ Nixはビルドシステムの強い制約や独自概念がありますが、Ni
 
 https://search.nixos.org/packages
 
+## Nixpkgsのブランチ
+
+Nixpkgsには複数のブランチがあります。まず、ローリングリリースのunstableブランチと安定版のstableブランチがあります。安定版ブランチの新しいリリースには基本的にセキュリティアップデートのみが含まれます。
+
+また、NixOSユーザー向けの`nixos-*`ブランチと非NixOSユーザー向けの`nixpkgs-*`ブランチがあります。これらの何が違うのかというと、実行されるテストの内容が異なります^[[Differences between Nix channels - NixOS Discourse](https://discourse.nixos.org/t/differences-between-nix-channels/13998/5)]。Nixpkgsでは、[Hydra](https://nixos.org/hydra/)というCIツールを利用してパッケージのビルドとテストを行っています。ブランチごとにジョブが設定されており、ビルドが成功し、テストを通過しない限り更新が反映されないようになっています。
+
+`nixpkgs-unstable`と`nixos-unstable`は、全てのブランチの中で最も新しい`master`ブランチに追従していますが、`master`からの反映には通常数日の遅れがあります。これは、更新がテストを経て安全性が確認されてからでないと反映されないようになっているからです。
+
+また、Hydraを用いてバイナリキャッシュの作成も行っており、ビルド成果物をAWSのS3にアップロードし、[cache.nixos.org](https://cache.nixos.org)からバイナリキャッシュを提供しています。
+
 ## 対応プラットフォーム
 
 Nixpkgsが主にサポートするプラットフォームは以下の通りです。
