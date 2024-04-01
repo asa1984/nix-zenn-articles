@@ -6,7 +6,7 @@ summary: |
 
   後編: 『Nix入門: ハンズオン編』（現在執筆中・公開日未定）
 topics: ["nix"]
-published: false
+published: true
 price: 0
 chapters:
   - 01-introduction
