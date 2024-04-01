@@ -1,0 +1,20 @@
+title: "Nix入門"
+summary: "現代最強のパッケージマネージャNixを知ろう"
+topics: ["nix"]
+published: false
+price: 0
+chapters:
+  - 01-introduction
+  - 02-what-is-nix
+  - 03-why-use-nix
+  - 04-re-what-is-nix
+  - 05-pure-functional-build
+  - 06-nix-store
+  - 07-binary-cache
+  - 08-derivation
+  - 09-nix-lang
+  - 10-nixpkgs
+  - 11-flakes
+  - 12-profiles
+  - 13-garbage-collection
+  - 14-conclusion
