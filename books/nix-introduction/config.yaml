@@ -1,5 +1,10 @@
 title: "Nix入門"
-summary: "現代最強のパッケージマネージャNixを知ろう"
+summary: |
+  現代最強のパッケージマネージャNixを知ろう！
+
+  Nixって何？と疑問に思っている方に向けて、Nixのコンセプトと仕組みを解説します。
+
+  後編: 『Nix入門: ハンズオン編』（現在執筆中・公開日未定）
 topics: ["nix"]
 published: false
 price: 0
