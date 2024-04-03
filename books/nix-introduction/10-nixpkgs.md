@@ -78,7 +78,7 @@ Nix言語の標準ライブラリを提供しています。
 ### [Standard Environment](https://nixos.org/manual/nixpkgs/stable/#chap-stdenv)
 
 Standard Environment（直訳: 標準環境）は、UNIXパッケージをビルドする上で必要な標準的なビルド環境を提供します。Derivationの章で`stdenv`として登場したものです。
-`stdenv.mkDerivation`はNixpkgsが提供する最も重要な関数の1つです。なぜならNixpkgsが提供するほとんどのパッケージはstdenvを用いてビルドさているからです。
+`stdenv.mkDerivation`はNixpkgsが提供する最も重要な関数の1つです。なぜならNixpkgsが提供するほとんどのパッケージはstdenvを用いてビルドされているからです。
 
 Nix言語のビルトイン関数である`derivation`は、実際のビルドに使うにはプリミティブすぎるという問題があります。対して、stdenvには[様々なツール](https://nixos.org/manual/nixpkgs/stable/#sec-tools-of-stdenv)が最初から組み込まれており、`gcc`, `coreutils`, `find`, `grep`, `make`といった代表的なGNUツールチェーン、ビルド用の便利なシェルスクリプト、そしてビルドを実行するシェルであるBashが最初から導入されています。また、Linuxのstdenvには、実行可能ファイルにパッチを適用する[patchelf](https://github.com/NixOS/patchelf)も導入されています。
 
