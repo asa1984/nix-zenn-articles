@@ -2,7 +2,7 @@
 title: "Flakes"
 ---
 
-**Flakes**とは、"Nix言語の"依存関係管理システムです^[[8.5.15. nix flake - Nix Reference Manual](https://nixos.org/manual/nix/stable/command-ref/new-cli/nix3-flake)]。Rustに対するCargo、Node.jsに対するnpm、Pythonに対するpipというように、Nix言語に対するFlakesというように、Nix言語の依存関係管理を行うのがFlakesです。
+**Flakes**とは、"Nix言語の"依存関係管理システムです^[[8.5.15. nix flake - Nix Reference Manual](https://nixos.org/manual/nix/stable/command-ref/new-cli/nix3-flake)]。Rustに対するCargo、Node.jsに対するnpm、Pythonに対するpip、Nix言語に対するFlakesというように、Nix言語の依存関係管理を行うのがFlakesです。
 
 そもそもNixが依存関係管理システムなのに、また別の依存関係管理システム？と困惑しているかもしれませんが、前章の内容を思い出してください。NixにおけるパッケージリポジトリとはNix言語のライブラリなのでした。つまり、Nixでパッケージリポジトリを利用するというのは、Nix言語の外部ライブラリを依存関係として導入するということなのです。
 
