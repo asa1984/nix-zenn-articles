@@ -42,7 +42,7 @@ https://nixos.org
 
 「再現可能なビルド」とは、いつどのマシンでも常にビルド結果が同じになるようなビルドを指します。ソフトウェアの配布やデプロイにおいて再現性は非常に重要な要素です。
 
-Nixは強力なビルドシステムによって、恐らくこの世で最も完全に近い再現性を実現しています。どれほどの再現性かというと、NixOSのミニマルISOイメージという巨大なパッケージのビルドの再現性が100%に逹しています。^[[Nixos-unstable’s iso_minimal.x86_64-linux is 100% reproducible!](https://discourse.nixos.org/t/nixos-unstable-s-iso-minimal-x86-64-linux-is-100-reproducible/13723)]
+Nixは強力なビルドシステムによって、恐らくこの世で最も完全に近い再現性を実現しています。どれほどの再現性かというと、NixOSのミニマルISOイメージという巨大なパッケージのビルドの再現性が100%に達しています。^[[Nixos-unstable’s iso_minimal.x86_64-linux is 100% reproducible!](https://discourse.nixos.org/t/nixos-unstable-s-iso-minimal-x86-64-linux-is-100-reproducible/13723)]
 
 ### 関連する機能
 
