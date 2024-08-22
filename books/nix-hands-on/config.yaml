@@ -1,0 +1,29 @@
+title: "Nix入門: ハンズオン編"
+summary: "Nixの基本的な使い方を学ぶためのハンズオンガイド"
+topics: ["nix"]
+published: false
+price: 0
+chapters:
+  - introduction
+  - ch00-01-define-terms
+  - ch00-02-setup
+  - ch01-00-nix-lang
+  - ch01-01-nix-lang-basics
+  - ch01-02-builtins
+  - ch01-03-flakes
+  - ch01-04-derivation
+  - ch01-05-flake-outputs
+  - ch02-00-nix-practice
+  - ch02-01-nix-cli-basics
+  - ch02-02-use-nixpkgs
+  - ch02-03-devshell
+  - ch02-04-overlays
+  - ch02-05-profiles
+  - ch03-00-build-utils
+  - ch03-01-stdenv
+  - ch03-02-fetchers
+  - ch04-00-tutorials
+  - ch04-01-hello
+  - ch04-02-rust-project
+  - ch04-03-docker-image
+  - appendix-01-references
