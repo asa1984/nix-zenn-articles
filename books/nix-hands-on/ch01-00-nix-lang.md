@@ -1,5 +1,5 @@
 ---
-title: "Chapter01. Nix言語"
+title: "第1部: Nix言語"
 ---
 
 **Nix言語**に入門しましょう。
