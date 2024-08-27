@@ -103,9 +103,14 @@ nix-repl> ''
 # String + String -> String
 nix-repl> "Hello, " + "world!"
 "Hello, world!"
+```
 
-# `${}`で変数を埋め込む
-# (a = "Nix lang", b = "poor")
+`${}`を使うと変数を埋め込むことができます。Nix言語の変数については後述します。
+
+```bash :変数の埋め込み
+# `${}`で文字列に変数を埋め込む
+nix-repl> a = "Nix lang"
+nix-repl> b = "poor"
 nix-repl> "${a} is ${b}"
 "Nix lang is poor"
 ```
@@ -167,9 +172,10 @@ nix-repl> [1 2 3] ++ [4 5 6]
 1つ注意点として、Listの中で関数を適用したい場合は`()`で囲んで範囲を明確にする必要があります。この挙動にハマる人が多いので公式ドキュメントにも[注意](https://nix.dev/manual/nix/2.18/language/values#list)が書かれています。
 
 ```bash :List内で関数を使うときの注意点
-# 関数fの定義: Numberを受け取り、1を加えて返す
+# 関数fの定義: Numberを受け取り、1を加えて返す（関数については後述）
+nix-repl> f = a: a + 1
 
-# 結果は`[Number Number Number]`となる
+# `()`で囲んだ場合、以下のListは`[Number Number Number]`と評価される
 nix-repl> [1 2 (f 3)]
 [ 1 2 4 ]
 
