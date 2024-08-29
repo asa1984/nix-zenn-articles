@@ -221,7 +221,7 @@ Hello
 まず、`builder`にbashのストアパスが指定されており、`args`にもシェルスクリプトファイルのストアパスが含まれています。そして先程の例では空だった`inputDrvs`にいくつかのstore derivationが指定されています。これらはパッケージをビルドする際に必要な依存です。
 そして`env`にはたくさんの環境変数が指定されています。特に注目すべきは`src`で、ここにはGNU Helloのソースコード（tarball）のストアパスが指定されています。
 
-derivation関数だけを使ってこのような複雑なstore derivationを生成するのはとても大変なので、実際のパッケージビルドではNixpkgsから提供されている**stdenv**を使用します。stdenvはderivation関数をラップしており、より直感的にビルド定義を記述することができます。詳細は「3.1. stdenv」で解説します。
+derivation関数だけを使ってこのような複雑なstore derivationを生成するのはとても大変なので、実際のパッケージビルドではNixpkgsから提供されている**stdenv**を使用します。stdenvはderivation関数をラップしており、より直感的にビルド定義を記述することができます。詳細は[_3.1. stdenv_](ch03-01-stdenv)で解説します。
 
 ## Import From Derivation
 

@@ -33,7 +33,7 @@ export NIX_ENFORCE_NO_NATIVE="${NIX_ENFORCE_NO_NATIVE-1}"
 `$SHELL`はBashのストアパス、`$initialPath`はcoreutilsやmakeといったツール群のストアパス、`$defaultNativeBuildInputs`は複数のシェルスクリプトやgccのストアパスを指しています。
 省略しましたが、これより下にはビルド補助用のBash関数の定義や`$PATH`を設定する処理、そして**Phase**と呼ばれるビルドの各ステップを実行する処理が続きます。
 
-「1.4. Nix言語とderivation」でderivation関数を用いて`hello-txt`（`Hello`と書かれたただのtxtファイル）をビルドしたとき、`/bin/sh`でシェルスクリプトを実行したことを覚えているでしょうか？
+[_1.4. Nix言語とderivation_](ch01-04-derivation)でderivation関数を用いて`hello-txt`（`Hello`と書かれたただのtxtファイル）をビルドしたとき、`/bin/sh`でシェルスクリプトを実行したことを覚えているでしょうか？
 stdenvの`setup`はまさしくそこで実行されるシェルスクリプトです。`setup`はビルドを実行するシェル（Bash）や標準的なツール群（coreutilsなど）、その他ビルドを補助する独自のシェルスクリプトなどをPATHに含んだ「ビルド環境」を構築します。つまり、ビルドに必要となる最低限の環境を整えてくれるのです。
 
 意外と原始的な方法で構築されていますね。ただし、PATHに導入されるツールやシェルスクリプトのパスは全てストアパスになっており、ビルド環境はサンドボックス化されホスト環境から隔離されるため、外部の要素が入り込む余地はありません。

@@ -187,7 +187,7 @@ https://nix.dev/manual/nix/2.20/command-ref/new-cli/nix3-flake#flake-references
 
 Git管理下のFlakeを依存関係として導入する場合、`flake.lock`は**Gitのコミットハッシュ**を利用してバージョンをロックします。
 
-例えば、以下のような[Nixpkgs](https://github.com/NixOS/nixpkgs)に依存するFlakeがあったとします。NixpkgsはNixの公式パッケージリポジトリです。詳しい使い方は「2.2. Nixpkgsを使う」で説明します。
+例えば、以下のような[Nixpkgs](https://github.com/NixOS/nixpkgs)に依存するFlakeがあったとします。NixpkgsはNixの公式パッケージリポジトリです。詳しい使い方は「[_2.2. Nixpkgsを使う_](ch02-02-use-nixpkgs)」で説明します。
 
 ```nix :flake.nix
 {

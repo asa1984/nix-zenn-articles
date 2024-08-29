@@ -136,7 +136,7 @@ $ nix eval --file /path/to/something.nix
 /path/to
 ```
 
-Pathを評価すると絶対パスが表示されます。ただし、内部的にはただのファイルパスとは異なる別の形式を取っており、**derivation**と深い関わりがあります。詳細は「1.4. Nix言語とderivation」のセクションで説明します。
+Pathを評価すると絶対パスが表示されます。ただし、内部的にはただのファイルパスとは異なる別の形式を取っており、**derivation**と深い関わりがあります。詳細は[_1.4. Nix言語とderivation_](ch01-04-derivation)で説明します。
 
 Path同士またはPathとStringを`+`演算子で結合することができます。Path + Stringの結果はPathになります。
 
@@ -518,4 +518,4 @@ https://blog.ryota-ka.me/posts/2018/12/15/lazy-lists-in-nix-expressions-language
 - derivation関数
 - Import From Derivation
 
-いずれもNixストアと相互作用する機能です。これらについては「1.4. Nix言語とderivation」で詳しく解説します。
+いずれもNixストアと相互作用する機能です。これらについては[_1.4. Nix言語とderivation_](ch01-04-derivation)で詳しく解説します。

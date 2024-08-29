@@ -219,7 +219,7 @@ $ nix run
 Hello, world!
 ```
 
-`callPackage`関数はPathとAttrSetを引数に取り、Pathで指定されたNixファイルの関数に`pkgs`を渡します。「1.1. Nix言語の基本」で扱ったように、AttrSetを引数にとる関数は受け取ったAttrSetからattributeを取り出して記述できるので、前述の`hello.nix`では`{ stdenv, rustc }`というように`pkgs.stdenv`と`pkgs.rustc`を取り出しています。
+`callPackage`関数はPathとAttrSetを引数に取り、Pathで指定されたNixファイルの関数に`pkgs`を渡します。[_1.1. Nix言語の基本_](ch01-01-nix-lang-basics)で扱ったように、AttrSetを引数にとる関数は受け取ったAttrSetからattributeを取り出して記述できるので、前述の`hello.nix`では`{ stdenv, rustc }`というように`pkgs.stdenv`と`pkgs.rustc`を取り出しています。
 また、今回は`callPackage`の第二引数として空のAttrSetを渡していますが、このAttrSetは`pkgs`にマージされます。つまり、正確には`pkgs // {}`が`hello.nix`に与えられます。
 
 ```:callPackageの望ましい型
