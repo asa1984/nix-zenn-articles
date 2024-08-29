@@ -183,7 +183,7 @@ https://nix.dev/manual/nix/2.20/command-ref/new-cli/nix3-flake#flake-references
 
 ### flake.lock
 
-`flake.lock`は依存関係をロックするためのファイルです。前述の例ではGitを使わずにFlakeを作成しましがた、基本的にFlakesはGitとの併用を前提としています。特にインターネット上でFlakeを公開するときはGitリポジトリ化は必須です。
+`flake.lock`は依存関係をロックするためのファイルです。前述の例ではGitを使わずにFlakeを作成しましたが、基本的にFlakesはGitとの併用を前提としています。特にインターネット上でFlakeを公開するときはGitリポジトリ化は必須です。
 
 Git管理下のFlakeを依存関係として導入する場合、`flake.lock`は**Gitのコミットハッシュ**を利用してバージョンをロックします。
 
