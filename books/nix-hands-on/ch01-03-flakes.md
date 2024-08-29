@@ -179,7 +179,7 @@ flake-urlは`flake.nix`だけでなく、NixのCLIでも使う形式なので覚
 
 実際は以上に示したもの以外の形式やパラメータもありますが、ここでは最も一般的なものを紹介します。詳細は公式リファレンスを参照してください。
 
-https://nix.dev/manual/nix/2.18/command-ref/new-cli/nix3-flake#flake-references
+https://nix.dev/manual/nix/2.20/command-ref/new-cli/nix3-flake#flake-references
 
 ### flake.lock
 

@@ -237,7 +237,7 @@ Nix言語においてインターネットからリソースを取得する関�
 
 詳細は公式リファレンスを参照してください。
 
-https://nix.dev/manual/nix/2.18/language/builtins
+https://nix.dev/manual/nix/2.20/language/builtins
 
 ## 【余談】非純粋な関数で遊ぶ
 
