@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - id: deploy
-        uses: asa1984/zenn-private-preview-action@v0
+        uses: asa1984/zenn-private-preview@v0
         with:
           cloudflare-account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
