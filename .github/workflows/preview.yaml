@@ -1,0 +1,36 @@
+name: 限定公開ページのデプロイ
+
+on:
+  pull_request:
+    branches: [release]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  deploy-preview:
+    permissions:
+      pull-requests: write
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: deploy
+        uses: asa1984/zenn-private-preview-action@v0
+        with:
+          cloudflare-account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          cloudflare-project-name: zenn-private-preview
+
+      - name: Output preview URL
+        run: 'echo "Preview URL: ${{ steps.deploy.outputs.deployment-url }}"'
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: `Preview URL: ${{ steps.deploy.outputs.deployment-url }}`
+            })
