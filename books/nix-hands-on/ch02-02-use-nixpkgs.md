@@ -2,7 +2,11 @@
 title: "　§2. Nixpkgsを使う"
 ---
 
-Nixpkgsは私たちが最も利用することになるFlakeです。NixpkgsをFlakeに導入する方法を説明します。
+[Nixpkgs](https://github.com/NixOS/nixpkgs)は、Nixの公式パッケージリポジトリです。約9万個のパッケージのビルド式を提供しており、Nixを利用する際はほぼ必ずNixpkgsを利用することになります。
+
+また、Nixpkgsはパッケージ以外にも、Nix言語の組み込み関数を拡張したライブラリや「第3部: ビルドユーティリティ」で解説するビルド用関数も一緒に提供しており、Nix言語の標準ライブラリのような役割も果たしています。詳しくは『Nix入門』の[Chapter 10 Nixpkgs](https://zenn.dev/asa1984/books/nix-introduction/viewer/10-nixpkgs)を参照してください。
+
+ここではNixpkgsの利用方法を説明します。
 
 ## Nixpkgsのブランチ
 
