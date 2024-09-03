@@ -68,7 +68,7 @@ https://github.com/nix-ja
 
 ### vim-jp slackのtech-nixチャンネル
 
-vim-jpのSlackに存在するNixに関するチャンネルです。なぜか最近非常に盛り上がりっています。
+vim-jpのSlackに存在するNixに関するチャンネルです。なぜか最近非常に盛り上がっています。
 
 https://vim-jp.org/docs/chat.html
 

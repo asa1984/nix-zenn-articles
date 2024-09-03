@@ -83,7 +83,7 @@ touch ./sub/flake.nix
 ```: ディレクトリ構成
 ./
 ├── sub/
-│  └── fleke.nix <- 依存
+│  └── flake.nix <- 依存
 └── flake.nix    <- 本体のFlake
 ```
 

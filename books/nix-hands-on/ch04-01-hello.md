@@ -80,7 +80,7 @@ nix flake new hello-nix
 
 ```bash :helloの作成
 mkdir src
-touch ./src/hello.c
+touch ./src/hello.rs
 ```
 
 ```rust :src/hello.rs
@@ -151,7 +151,7 @@ Hello, world!
 
 ## 4. リファクタリング
 
-今回のような小さなプロジェクトなら`fleke.nix`1つで十分ですが、大きなプロジェクトなら`flake.nix`に記述する内容は最小限に留めた方がいいので、ファイル分割してみましょう。また、パッケージのメタ情報が不足しているのでmkDerivationに設定を追加します。
+今回のような小さなプロジェクトなら`flake.nix`1つで十分ですが、大きなプロジェクトなら`flake.nix`に記述する内容は最小限に留めた方がいいので、ファイル分割してみましょう。また、パッケージのメタ情報が不足しているのでmkDerivationに設定を追加します。
 
 リファクタリングに入る前にコミットしておきます。
 
@@ -161,7 +161,7 @@ git commit --message="add hello-rs"
 
 ### 5.1. ファイル分割
 
-`import`を使ってもいいですが、ここはNixpkgsが採用している**callPackageパターン**^[[Callpackage Design Patter - Nix Pills](https://nixos.org/guides/nix-pills/13-callpackage-design-pattern)]を用います。`nix/`ディレクトリを作り、`flake.nix`に記述していたビルド式を`nix/hello.nix`に移します。
+`import`を使ってもいいですが、ここはNixpkgsが採用している**callPackageパターン**^[[Callpackage Design Pattern - Nix Pills](https://nixos.org/guides/nix-pills/13-callpackage-design-pattern)]を用います。`nix/`ディレクトリを作り、`flake.nix`に記述していたビルド式を`nix/hello.nix`に移します。
 
 ```nix :nix/hello.nix
 { stdenv, rustc }:

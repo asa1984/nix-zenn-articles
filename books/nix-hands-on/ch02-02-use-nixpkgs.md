@@ -72,7 +72,7 @@ Hello, world!
 
 ## 複数のプラットフォームに対応する
 
-今のところ私たちのFlakeは`x86_64-linux`用のパッケージしかエクスポートしていません。`aaarch64-linux`や`aarch64-darwin`からも利用できるように複数のプラットフォームに対応させたいのですが、わざわざ`packages.aarch64-linux.hello`や`packages.aarch64-darwin.hello`と書くのは冗長なので、`flake.nix`の記述を簡潔にするためのユーティリティ関数を使いましょう。
+今のところ私たちのFlakeは`x86_64-linux`用のパッケージしかエクスポートしていません。`aarch64-linux`や`aarch64-darwin`からも利用できるように複数のプラットフォームに対応させたいのですが、わざわざ`packages.aarch64-linux.hello`や`packages.aarch64-darwin.hello`と書くのは冗長なので、`flake.nix`の記述を簡潔にするためのユーティリティ関数を使いましょう。
 
 ### flake-utilsを使う
 

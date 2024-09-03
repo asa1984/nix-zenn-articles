@@ -121,7 +121,7 @@ $ nix derivation show --file ./drv.nix
 | out        | ビルド成果物を配置するストアパス       |
 | system     | ビルドターゲットのプラットフォーム     |
 
-このstore derivationをrealiseすると、Nixはサンドボック化されたビルド環境で`/bin/sh -c "echo -n Hello > $out"`を実行します。つまり、`$out`に`Hello`という文字列を書き込みます。
+このstore derivationをrealiseすると、Nixはサンドボックス化されたビルド環境で`/bin/sh -c "echo -n Hello > $out"`を実行します。つまり、`$out`に`Hello`という文字列を書き込みます。
 
 ### Realisation
 

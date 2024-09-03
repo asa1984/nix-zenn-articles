@@ -6,7 +6,7 @@ title: "　§1. Nix CLIの基本"
 
 コマンドを打つ度に毎回長いflake-urlを書くのは面倒です。`nix registry`コマンドでflake-urlのエイリアスを設定することができます。
 
-デフォルトでもいくつかのエイリアスが定義されており、例えば`github:NixOS/nixpkgs/nixpkgs/nixpkgs-unstable`（Nixpkgsのnixpkgs-unstableブランチ）には`nixpkgs`というエイリアスが割り当てられています。以降、コマンドからNixpkgsを利用するときはこのエイリアスを使っていきます。
+デフォルトでもいくつかのエイリアスが定義されており、例えば`github:NixOS/nixpkgs/nixpkgs-unstable`（Nixpkgsのnixpkgs-unstableブランチ）には`nixpkgs`というエイリアスが割り当てられています。以降、コマンドからNixpkgsを利用するときはこのエイリアスを使っていきます。
 
 :::details デフォルトのエイリアス一覧
 
