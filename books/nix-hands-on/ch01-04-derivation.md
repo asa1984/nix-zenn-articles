@@ -139,6 +139,15 @@ Hello
 
 後述するIFDを除き、基本的にNix言語自体がrealisationを実行することはできません。Nix言語はstore derivationを生成するDSLとして機能し、Nixのコマンド（`nix-store --realise`/`nix build`など）が実際のビルドを行います。
 
+:::details 出力結果が異なる場合
+前述の`drv.nix`は、説明を簡潔にするために本来なら厳密に指定すべき部分を誤魔化しています。そのため、環境によってはビルド結果が異なる場合がありますが、そのまま無視して進めてください。
+
+例えば、macOSでは以下のissueのような出力結果になる可能性があります。
+https://github.com/asa1984/nix-zenn-articles/issues/14#issuecomment-2322872556
+
+尚、Flakeを利用している場合は、再現性を損うようなNix式（非純粋な組み込み関数・Git管理下にないファイルへのアクセス）があるとビルド前にエラーが出るため、このような問題は発生しません。
+:::
+
 ## 実際のパッケージのstore derivation
 
 先程例として示したstore derivationは非常にシンプルなもので、実際のパッケージの場合はもっと複雑です。以下にNixpkgsに収録されているGNU Helloを評価した際に生成されるstore derivationを示します。長いので折り畳んでいます。
