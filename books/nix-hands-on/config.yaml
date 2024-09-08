@@ -1,7 +1,12 @@
 title: "Nix入門: ハンズオン編"
-summary: "Nixの基本的な使い方を学ぶためのハンズオンガイド"
+summary: |
+  Nixの使い方を学ぶためのハンズオンガイド
+
+  Nix言語の基本からNix CLIの使い方、パッケージのビルド方法まで、実際に手を動かしながら学びましょう。
+
+  前編: 『[Nix入門](https://zenn.dev/asa1984/books/nix-introduction)』
 topics: ["nix"]
-published: false
+published: true
 price: 0
 chapters:
   - introduction
