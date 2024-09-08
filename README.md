@@ -26,8 +26,11 @@ nix run
 
 #### フォーマット
 
-全てのMarkdownファイルをフォーマットします。
+以下の形式のファイルをフォーマットします。
+
+- `*.nix`
+- `*.md`
 
 ```bash
-nix run .#format
+nix fmt
 ```
