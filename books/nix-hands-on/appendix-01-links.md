@@ -44,6 +44,20 @@ https://wiki.nixos.org/wiki/NixOS_Wiki
 
 https://nixos.wiki
 
+## ブログ
+
+### HERP における Nix 活用
+
+株式会社[HERP](https://herp.co.jp)でNixがどのように活用されているかが書かれています。
+
+https://blog.ryota-ka.me/posts/2022/10/08/how-we-use-nix-in-herp-inc
+
+### Packaging Supabase with Nix
+
+[Supabase](https://supabase.com)が自社パッケージのビルドパイプラインにNixを導入するまでの経緯が書かれています。
+
+https://supabase.com/blog/nix-postgres
+
 ## フォーラム
 
 ### NixOS Discourse

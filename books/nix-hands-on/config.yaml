@@ -26,4 +26,5 @@ chapters:
   - ch04-01-hello
   - ch04-02-rust-project
   - ch04-03-docker-image
-  - appendix-01-references
+  - appendix-01-links
+  - appendix-02-nixos
