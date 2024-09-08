@@ -4,7 +4,11 @@ title: "　§5. Flakeのoutputs"
 
 ## outputsのスキーマ
 
-Nixのコマンドの多くはFlakeをエントリーポイントとしてNix式を評価します。その際、コマンドによってoutputsのどのattributeを利用するかが決まっています。なので、Flakeのoutputsは以下のスキーマに則っていることが望ましいです。
+技術的には`flake.nix`のoutputsには任意のNix式を記述することができますが、実際は標準のスキーマに則っていることが望ましいです。使い方や詳しい挙動は[_第2部: 実践Nix_](ch02-00-nix-practice)で解説します。
+
+### CLIが利用するattribute
+
+Nixのコマンドの多くは`flake.nix`をエントリーポイントとしてNix式を評価します。その際、コマンドによってoutputsのどのattributeを利用するかが決まっています。
 
 ```nix :flake.nixのoutputs
 outputs = { ... }:
@@ -44,7 +48,16 @@ outputs = { ... }:
   };
   # `nix flake init -t <flake>`でテンプレートを使う
   templates.default = ...
+}
+```
 
+### Nix言語から利用するattribute
+
+Nix言語から`flake.nix`をインポートする際に利用するattributeです。Overlayに関しては、[_2.4. Overlays_](ch02-04-overlays)で解説します。
+
+```nix :flake.nixのoutputs
+outputs = { ... }:
+{
   # derivation以外の汎用的なNix言語ライブラリ
   # CLIからは利用せず、Nix式としてインポートする
   lib.<name> = <任意のNix式>;
@@ -55,7 +68,7 @@ outputs = { ... }:
 }
 ```
 
-## Nix以外のツールとoutputs
+### Nix以外のツールが利用するattribute
 
 Nix以外のツールが独自のattributeを要求することがあります。
 

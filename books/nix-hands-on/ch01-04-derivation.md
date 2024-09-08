@@ -2,13 +2,13 @@
 title: "　§4. Nix言語とderivation"
 ---
 
-いよいよNix言語の核心に迫ります。これまで紹介してきたNix言語の機能はどれも基本的なもので、到底パッケージのビルドなどはできません。実際にビルドを行うにはNixのビルドシステムと連携する必要があります。
+いよいよNix言語の核心に迫ります。これまで紹介してきた言語機能はどれも基本的なもので、到底パッケージのビルドなどはできません。実際にビルドを行うにはNixのビルドシステムと連携する必要があります。
 
 このセクションでは**derivation関数**と**IFD**（**Import From Derivation**）について学び、Nix言語がNixストアとどのように連携しているのかを理解しましょう。
 
 ## derivation関数
 
-derivation関数はNix言語の最も重要な関数です。この関数はAttrSetを受け取ってAttrSetを返し、副作用としてNixストアにstore derivationを生成します。
+derivation関数はNix言語の最も重要な組み込み関数です。この関数はAttrSetを受け取ってAttrSetを返し、副作用としてNixストアに**store derivation**を生成します。
 
 ```:derivationの型
 derivation :: AttrSet -> AttrSet
@@ -16,7 +16,7 @@ derivation :: AttrSet -> AttrSet
 
 ---
 
-derivation関数を使ってみましょう。以下のNixファイルを作成します。
+derivation関数を使ってみましょう。次のNixファイルを作成します。
 
 ```nix :drv.nix
 derivation {
@@ -32,9 +32,11 @@ derivation {
 
 `name`はパッケージ名、`builder`はビルドを実行する実行可能ファイルのパス、`args`は`builder`に渡す引数です。`system`にはビルドターゲットのプラットフォームを指定します。
 
-今回はあくまで例なので`builder`に`/bin/sh`を指定し、`system`に非純粋な組み込み関数`currentSystem`を入れています。実際のビルドでは`builder`には基本的にbashのストアパスが指定されます。
+本来は再現性を保証するためにパラメーターは厳密に指定しなければいけませんが、今回は説明を簡潔にするために`builder`にホストマシンのシェルのPATH（`/bin/sh`）を指定し、`system`の指定には非純粋な組み込み関数`currentSystem`を利用しています。
 
-評価するとAttrSetが得られます。
+---
+
+`drv.nix`を評価すると以下のようなAttrSetが出力されます。
 
 ```bash
 # 見やすさのために評価結果に改行を入れています
@@ -59,29 +61,58 @@ $ nix eval --file ./drv.nix
 }
 ```
 
-`drvPath`が指すファイルパスを確認してみましょう。Store derivation（`.drv`ファイル）が生成されていることが確認できます。
+`drvPath`は生成されたstore derivationのストアパスを示しています。実際に確認してみると`.drv`ファイルが生成されていることがわかります。
 
 ```bash :Store derivationの確認
 $ cat /nix/store/ybkx07yfg2w33mr909bk2g7z0264sy4x-hello-txt.drv
 # Store derivationの内容が表示される
 ```
 
-次は`outPath`を確認してみます。
+次は`outPath`を確認してみます。`outPath`はビルド成果物が配置されるストアパスを示しています。
 
 ```bash :outPathの確認
 $ cat /nix/store/z4j03hs3qk7a3cbiwglgys2cz61pbi6s-hello-txt
 cat: /nix/store/z4j03hs3qk7a3cbiwglgys2cz61pbi6s-hello-txt: No such file or directory
 ```
 
-`outPath`はビルド成果物が配置されるストアパスを示しているのですが、今はまだ何も存在しません。実際にビルドを行うにはderivation関数が生成したstore derivationをrealiseする必要があります。
+どうやらファイルが存在しないようです。
+
+derivation関数はstore derivationを生成しますが、ビルドまでは行いません。実際にビルドを行うにはderivation関数が生成したstore derivationを**realise**する必要があります。
+
+### Realisation
+
+先程生成したstore derivationをrealiseしてみます。
+
+```bash :Realise
+$ nix-store --realise /nix/store/ybkx07yfg2w33mr909bk2g7z0264sy4x-hello-txt.drv
+/nix/store/z4j03hs3qk7a3cbiwglgys2cz61pbi6s-hello-txt
+
+$ cat /nix/store/z4j03hs3qk7a3cbiwglgys2cz61pbi6s-hello-txt
+Hello
+```
+
+ビルドが成功し、`outPath`に`Hello`という文字列が書き込まれたファイルが生成されました。
+
+基本的にNix言語はパッケージをrealiseできません（後述のIFDを除く）。Nix言語はstore derivationを生成するDSLとして機能し、Nixのコマンド（`nix-store --realise`/`nix build`など）がrealiseを行います。
+
+:::details Realisationの結果が異なる場合
+前述の`drv.nix`は、説明を簡潔にするために本来なら厳密に指定すべき部分を誤魔化しています。そのため、環境によってはビルド結果が異なる場合がありますが、そのまま無視して進めてください。
+
+例えば、macOSでは以下のissueのような出力結果になる可能性があります。
+https://github.com/asa1984/nix-zenn-articles/issues/14#issuecomment-2322872556
+
+尚、Flakeを利用している場合は、再現性を損うようなNix式（非純粋な組み込み関数・Git管理下にないファイルへのアクセス）があるとビルド前にエラーが出るため、このような問題は発生しません。
+:::
 
 ### Instantiation
 
-derivation関数の返り値としてstore derivationが出力されるのではなく、**derivation関数の副作用としてstore derivationが生成されます**。これを**Instantiation**と呼びます。
+derivation関数のポイントは、関数の返り値としてstore derivationが出力されるのではなく、**副作用としてstore derivationが生成される**ことです。これを**Instantiation**と呼びます。
+
+Store derivationはNix式の低レベル表現と見做すことができます。
 
 副作用と聞くとNix言語の純粋関数型言語としての性質と相反するように思えますが、Nixストアとビルドシステムとの連携により全体としては純粋なシステムとして機能しています。暗黙的な挙動ではありますが、Nix言語の評価やビルドの決定性を損うものではありません。
 
-### Store derivation
+## Store derivation
 
 Store derivationの内容をJSON形式で表示してみましょう。`nix derivation show`コマンドを使います。
 
@@ -110,9 +141,9 @@ $ nix derivation show --file ./drv.nix
 }
 ```
 
-`env`キーに注目してください。ここには、このstore derivationをrealiseするとき（つまり実際にビルドを実行するとき）にビルド環境で有効化される環境変数が指定されています。
+`env`キーに注目してください。ここには、このstore derivationをrealiseするとき（つまり実際にビルドを実行するとき）にビルド環境（サンドボックス）で有効化される環境変数が指定されています。
 
-このstore derivationは最もシンプルな形なので、以下の環境変数が指定されています。
+このstore derivationは最低限のパラメーターしか設定していないので、以下の4つの環境変数のみが有効化されます。
 
 | 環境変数名 | 内容                                   |
 | ---------- | -------------------------------------- |
@@ -121,32 +152,9 @@ $ nix derivation show --file ./drv.nix
 | out        | ビルド成果物を配置するストアパス       |
 | system     | ビルドターゲットのプラットフォーム     |
 
-このstore derivationをrealiseすると、Nixはサンドボックス化されたビルド環境で`/bin/sh -c "echo -n Hello > $out"`を実行します。つまり、`$out`に`Hello`という文字列を書き込みます。
+特に重要なのは`$out`です。ビルド成果物をNixストアに配置するためには、サンドボックスから`$out`にファイル・ディレクトリを移動またはコピーする必要があります。`$out`に移動されなかったファイルはrealisation終了時にサンドボックスごと破棄されます。
 
-### Realisation
-
-先程生成したstore derivationをrealiseし、実際にビルドを実行します。
-
-```bash :Realise
-$ nix-store --realise /nix/store/ybkx07yfg2w33mr909bk2g7z0264sy4x-hello-txt.drv
-/nix/store/z4j03hs3qk7a3cbiwglgys2cz61pbi6s-hello-txt
-
-$ cat /nix/store/z4j03hs3qk7a3cbiwglgys2cz61pbi6s-hello-txt
-Hello
-```
-
-ビルドが成功し、`outPath`に`Hello`という文字列が書き込まれたファイルが生成されました。
-
-後述するIFDを除き、基本的にNix言語自体がrealisationを実行することはできません。Nix言語はstore derivationを生成するDSLとして機能し、Nixのコマンド（`nix-store --realise`/`nix build`など）が実際のビルドを行います。
-
-:::details 出力結果が異なる場合
-前述の`drv.nix`は、説明を簡潔にするために本来なら厳密に指定すべき部分を誤魔化しています。そのため、環境によってはビルド結果が異なる場合がありますが、そのまま無視して進めてください。
-
-例えば、macOSでは以下のissueのような出力結果になる可能性があります。
-https://github.com/asa1984/nix-zenn-articles/issues/14#issuecomment-2322872556
-
-尚、Flakeを利用している場合は、再現性を損うようなNix式（非純粋な組み込み関数・Git管理下にないファイルへのアクセス）があるとビルド前にエラーが出るため、このような問題は発生しません。
-:::
+前述のstore derivationをrealiseすると、Nixはサンドボックス内で`/bin/sh -c "echo -n Hello > $out"`を実行し、`$out`に`Hello`という文字列を書き込みます。
 
 ## 実際のパッケージのstore derivation
 
@@ -234,9 +242,11 @@ derivation関数だけを使ってこのような複雑なstore derivationを生
 
 ## Import From Derivation
 
-Nix式の値はストアオブジェクトに依存することができます。`import`や`readFile`を使ってストアオブジェクトを読み込むと**Import From Derivation**（**IFD**）が発生します。
+Nix言語ではストアオブジェクトに依存した値を作成することができます。`import`や`readFile`などの特定の組み込み関数を介してストアオブジェクトを読み込むと**Import From Derivation**（**IFD**）が発生します。
 
-一旦先程realiseしたストアオブジェクトを削除します。
+---
+
+一旦、先程realiseしたストアオブジェクトを削除します。
 
 ```bash :ストアオブジェクトの削除
 $ nix store delete /nix/store/z4j03hs3qk7a3cbiwglgys2cz61pbi6s-hello-txt
@@ -267,8 +277,7 @@ $ nix eval --file ./IFD.nix
 
 なんと成功してしまいました。
 
-これは不正な挙動ではありません。
-Nix式の評価中、ストアオブジェクトへのアクセスが必要とされる場面に遭遇すると、Nixは自動的にstore derivationをrealiseするのです。これがIFDです。Nix言語は、Nix式の評価中にinstantiationだけでなく、realisationも行う場合があります。
+これは不正な挙動ではありません。Nix式の評価中、ストアオブジェクトへのアクセスが必要とされる場面に遭遇すると、Nixは自動的にstore derivationをrealiseするのです。これを**IFD**と呼びます。
 
 IFDは、以下の組み込み関数でストアパスにアクセスしたときだけ発生します。いずれもファイルシステムにアクセスする関数です。
 
@@ -291,7 +300,7 @@ https://nix.dev/manual/nix/2.20/language/import-from-derivation#illustration
 
 ## Derivation型
 
-derivation関数が返すAttrSetを便宜上Derivation型と呼ぶことにします。Derivation型は通常のAttrSetと異なり、以下の特別な扱いを受けます。
+derivation関数が返すAttrSetを便宜上Derivation型と呼ぶことにします。Derivation型は通常のAttrSetと異なり、次の特別な扱いを受けます。
 
 1. `toString`を適用すると、ストアパスが返ってくる
 2. `"${}`で文字列に埋め込むと、ストアパス文字列に変換される
@@ -301,15 +310,11 @@ derivation関数が返すAttrSetを便宜上Derivation型と呼ぶことにし�
 Derivation型は実際のビルド式では至るところで利用されるので、利便性のためにこのような挙動になっているのだと思われます。
 
 :::details 厳密には「型」ではない
-動的型付け言語の「型」とは、実行中に変数ではなく値に付与されるラベルです。Nix言語にはそのような型を判定する組み込み関数（e.g. `isNumber`/`isFloat`/`isAttrs`）がありますが、`isDerivation`関数はありません。厳密には「Derivation型」は存在せず、特定のattributeを持ったAttrSetでしかありません。
+静的型付け言語における「型」とは、プログラムの構成要素（変数や関数など）を、それが計算する値の種類に基づいて分類するための概念です。これは型検査器によって検証されます。
 
-ただし、REPLでderivation関数を評価すると`<<derivation>>`と表示されることや後述の挙動を見る限り特別扱いされていることは間違いありません。そのため、本書では便宜上「Derivation型」と呼ぶことにします。
+一方、動的型付け言語の「型」は、実行中にランタイムによって値に付与されるラベルです。Nix言語にはそのような型を判定する組み込み関数（e.g. `isNumber`/`isFloat`/`isAttrs`）がありますが、`isDerivation`関数は存在しません。厳密には「Derivation型」という型は存在せず、特定のattributeを持ったAttrSetでしかありません。
 
-```bash: REPLでdrv.nixを評価
-nix-repl> import ./drv.nix
-«derivation /nix/store/ybkx07yfg2w33mr909bk2g7z0264sy4x-hello-txt.drv»
-```
-
+あくまで解説を円滑にするための本書独自の便宜的な呼称であり、Nix言語の公式ドキュメントにも「Derivation型」という表現は登場しないため、注意してください。
 :::
 
 ### 1. toStringとDerivation型
@@ -372,10 +377,9 @@ nix-repl> builtins.readFile drv
 
 IFDの存在は、Nix言語の評価がrealisation（ビルドの実行）に依存することを意味します。
 
-一見、言語の評価がパッケージビルドに依存するのは問題があるように思えますが、それはビルドが決定論的でない場合の話です。Nixのビルドシステムは決定論的であり、必ず同じ結果を返します。もしrealiseに失敗したら、それは「絶対に失敗する」ときです。
-Nix言語の評価が決定論的であることと、ビルドが決定論的であることはほとんど等価です。
+一見、言語の評価がパッケージビルドに依存するのは問題があるように思えますが、それはビルドが決定論的でない場合の話です。Nixのビルドシステムは決定論的であり、必ず同じ結果を返します。Nix言語の評価の決定性とビルドの決定性は表裏一体となっています。
 
-また、store derivationの生成やIFDはNix言語からは隠蔽されており、Nix言語世界は純粋に保たれています。Nix言語はstore derivationに直接触れることができません。IFDを通じてのみ、間接的にstore derivationをrealiseすることができます。
+また、Nix言語はstore derivationに直接触れることができず、instantiationやIFDはNix言語から隠蔽されています。Store derivationやIFDは、Nix言語視点では低レベル世界の事情であり、いわば高級言語から見たメモリ管理のようなものです。知っておくと便利ではあるものの、言語の純粋性に直接影響を与えるものではないので、常に意識する必要はありません。
 
 ## 参照
 
