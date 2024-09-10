@@ -4,7 +4,8 @@ summary: |
 
   Nixって何？と疑問に思っている方に向けて、Nixのコンセプトと仕組みを解説します。
 
-  後編: 『Nix入門: ハンズオン編』（現在執筆中・公開日未定）
+  後編: 『Nix入門: ハンズオン編』
+  https://zenn.dev/asa1984/books/nix-hands-on
 topics: ["nix"]
 published: true
 price: 0
