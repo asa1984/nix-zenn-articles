@@ -124,7 +124,7 @@ rustPlatform.buildRustPackage {
        in
        {
          devshells.default = # ...
-+        packages.default = pkgs.callpackage ./nix/rust-with-nix.nix { };
++        packages.default = pkgs.callPackage ./nix/rust-with-nix.nix { };
        }
      );
  }

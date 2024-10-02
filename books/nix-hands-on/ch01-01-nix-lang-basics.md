@@ -391,7 +391,7 @@ Nix言語ではAttrSetを引数にとる関数を頻繁に利用するため、�
 
 ```nix :Before
 # { a = Number; b = Number; } -> Number
-set: a + b
+set: set.a + set.b
 ```
 
 ```nix :After

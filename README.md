@@ -6,6 +6,7 @@
 | --------------------------------------------------------------------------------------------- | :--: | :--------: |
 | [NixOSで最強のLinuxデスクトップを作ろう](https://zenn.dev/asa1984/articles/nixos-is-the-best) | 記事 | 2023-07-09 |
 | [Nix入門](https://zenn.dev/asa1984/books/nix-introduction)                                    |  本  | 2024-04-01 |
+| [Nix入門: ハンズオン編](https://zenn.dev/asa1984/books/nix-hands-on)                          |  本  | 2024-09-08 |
 
 ## 執筆者向け情報
 
