@@ -147,6 +147,7 @@ stdenvは通常のパッケージと同様にNixpkgsのlegacyPackagesから提�
 +         hello = pkgs.stdenv.mkDerivation {
 +           pname = "hello";
 +           version = "2.12";
++ 　　　　　　src = ./hello-2.12.tar.gz;
 +         };
 +       };
 +     }
