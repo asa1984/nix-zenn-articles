@@ -33,5 +33,5 @@ nix run
 - `*.md`
 
 ```bash
-nix fmt
+nix flake check
 ```

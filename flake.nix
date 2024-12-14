@@ -1,59 +1,49 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+
+    flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
-    { nixpkgs, flake-utils, ... }:
-    flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "aarch64-linux" # 64-bit ARM Linux
+        "x86_64-linux" # 64-bit x86 Linux
+        "aarch64-darwin" # 64-bit ARM macOS
+        "x86_64-darwin" # 64-bit x86 macOS
+      ];
+      imports = [
+        inputs.treefmt-nix.flakeModule
+      ];
 
-        nodeEnv = import "${nixpkgs}/pkgs/development/node-packages/node-env.nix" {
-          inherit pkgs;
-          inherit (pkgs)
-            stdenv
-            lib
-            python2
-            runCommand
-            writeTextFile
-            writeShellScript
-            ;
-          nodejs = pkgs.nodejs;
-          libtool = null;
-        };
-        zenn-cli = nodeEnv.buildNodePackage rec {
-          name = "zenn";
-          packageName = "zenn-cli";
-          version = "0.1.154";
-          src = builtins.fetchurl {
-            url = "https://registry.npmjs.com/zenn-cli/-/zenn-cli-${version}.tgz";
-            sha256 = "sha256:0q3h1jxlihb2dmlqjrx8wr36mhcd2ppm1cmd6lp2i93hjjrsj0gc";
+      perSystem =
+        {
+          config,
+          system,
+          pkgs,
+          lib,
+          ...
+        }:
+        {
+          apps = {
+            default = {
+              program = pkgs.zenn-cli;
+            };
           };
-          production = true;
-          bypassCache = true;
-          reconstructLock = true;
-        };
 
-        formatters = with pkgs; [
-          prettier
-          nixfmt-rfc-style
-          treefmt
-        ];
-        format = pkgs.writeScriptBin "format" ''
-          PATH=$PATH:${pkgs.lib.makeBinPath formatters}
-          ${pkgs.treefmt}/bin/treefmt --config-file ${./treefmt.toml}
-        '';
-      in
-      {
-        packages = {
-          default = zenn-cli;
-          zenn-cli = zenn-cli;
+          treefmt = {
+            projectRootFile = "flake.nix";
+            programs = {
+              actionlint.enable = true;
+              nixfmt.enable = true;
+              prettier.enable = true;
+            };
+          };
         };
-        devShells.default = pkgs.mkShell { packages = with pkgs; [ typos ]; };
-        formatter = format;
-      }
-    );
+    };
 }
